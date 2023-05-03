@@ -8,7 +8,17 @@ from db.models import Base, Task
 from db.database import engine
 Base.metadata.create_all(bind=engine)
 
+from starlette.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/result") #user가 result로 접속했을 때 task id를 입력하도록 함
 async def get_task(task_id: str):
